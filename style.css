@@ -9,10 +9,13 @@ body, html {
 }
 
 h1 {
-    color: #3d3d3d;
-    display: flex;
+    color: #fff;
+    display: flex; /* Uncommented this line */
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
+    background-image: url("5bd1aa2a822585b843d5ac4348a10be1.png");
+    background-size: cover; /* This will cover the entire area without distorting the image */
+    background-position: center; /* This will center the image in the element */
 }
