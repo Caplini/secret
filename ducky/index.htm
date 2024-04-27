@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ban This Cheater</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative; /* Added */
+        }
+        h1, h2, h3 {
+            color: #fff;
+            text-align: center;
+        }
+        input[type="text"], input[type="email"], input[type="password"], button, input[type="file"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #444;
+            color: #fff;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            border: 1px solid #555;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            background-color: #444;
+        }
+        .tab.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .tabContent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #555;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #555;
+            position: relative; /* Added */
+        }
+        .tabContent.active {
+            display: block;
+        }
+        .suggestions {
+            display: none;
+            position: absolute;
+            width: calc(100% - 22px);
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #444;
+            border: 1px solid #555;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+        .suggestions div {
+            padding: 10px;
+            cursor: pointer;
+            color: #fff;
+        }
+        .suggestions div:hover {
+            background-color: #333;
+        }
+        .info {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+        .info .publisher {
+            font-style: italic;
+            font-size: 12px;
+            color: #888;
+        }
+        .register-tab {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .profile {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .view-more {
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: underline;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .user-profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .profile-name {
+            cursor: pointer;
+            color: #fff;
+            text-decoration: underline;
+        }
+        .report-info {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ban This Cheater</h1>
+
+        <!-- Search Form -->
+        <form id="searchForm">
+            <label for="username">Enter Username:</label>
+            <input type="text" id="username" name="username" autocomplete="off" required>
+            <div id="suggestions" class="suggestions"></div> <!-- Suggestions will be displayed here -->
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab" onclick="openTab('viewReportsTab', this)">View Reports</div>
+            <div class="tab" onclick="openTab('fileReportTab', this)">File Report</div>
+            <div class="tab" onclick="openTab('theListTab', this)">The List</div>
+            <div class="tab" onclick="openTab('loginTab', this)">Login</div>
+        </div>
+
+        <!-- File Report Tab -->
+        <div id="fileReportTab" class="tabContent">
+            <h2>File Report for User</h2>
+            <form id="fileReportForm">
+                <label for="fileReportUsername">Username:</label>
+                <input type="text" id="fileReportUsername" name="username" autocomplete="off" required>
+
+                <label for="platform">Platform:</label>
+                <input type="text" id="platform" name="platform" required>
+
+                <label for="game">Game:</label>
+                <input type="text" id="game" name="game" required>
+
+                <label for="cheatType">Type of Cheat:</label>
+                <input type="text" id="cheatType" name="cheatType" required>
+
+                <label for="profileLink">Profile Link:</label>
+                <input type="text" id="profileLink" name="profileLink" required>
+
+                <label for="uploadPicture">Upload Picture (optional):</label>
+                <input type="file" id="uploadPicture" name="uploadPicture">
+
+                <label for="userInfo">Enter Report:</label>
+                <input type="text" id="userInfo" name="userInfo" required>
+                <button type="submit">File Report</button>
+            </form>
+        </div>
+
+        <!-- View Reports Tab -->
+        <div id="viewReportsTab" class="tabContent">
+            <h2>View Reports for User</h2>
+            <div id="reportedUserProfile"></div>
+            <div id="viewReportsInfoDisplay"></div>
+        </div>
+
+        <!-- The List Tab -->
+        <div id="theListTab" class="tabContent">
+            <h2>The List - Usernames Sorted by Information</h2>
+            <ul id="sortedUsernamesList"></ul>
+        </div>
+
+        <!-- Login Tab -->
+        <div id="loginTab" class="tabContent">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="loginEmail">Your Email:</label>
+                <input type="email" id="loginEmail" name="loginEmail" required>
+                <label for="loginPassword">Your Password:</label>
+                <input type="password" id="loginPassword" name="loginPassword" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Register Tab -->
+        <div id="registerTab" class="tabContent">
+            <h2>Register</h2>
+            <form id="registerForm">
+                <label for="registerName">Your Name:</label>
+                <input type="text" id="registerName" name="registerName" required>
+                <label for="registerEmail">Your Email:</label>
+                <input type="email" id="registerEmail" name="registerEmail" required>
+                <label for="registerPassword">Your Password:</label>
+                <input type="password" id="registerPassword" name="registerPassword" required>
+                <button type="submit">Register</button>
+                <div id="registrationNotification" class="info" style="display: none;">This email has already been used.</div> <!-- Notification for already used email -->
+                <div id="usernameExistNotification" class="info" style="display: none;">This username has already been used.</div> <!-- Notification for already used username -->
+            </form>
+        </div>
+
+        <!-- Register Tab -->
+        <div class="register-tab">
+            <div class="tab" onclick="openTab('registerTab', this)">Register</div>
+        </div>
+    </div>
+
+    <script>
+        const userData = {}; // Object to store user information
+        const registeredUsers = []; // Array to store registered users
+        let loggedInUser = null; // Currently logged-in user
+
+        // Function to show suggestions based on input
+        const usernameInput = document.getElementById('username');
+        const suggestionsDiv = document.getElementById('suggestions');
+        usernameInput.addEventListener('input', function() {
+            const inputValue = this.value.toLowerCase();
+            const suggestions = Object.keys(userData).filter(username => username.toLowerCase().startsWith(inputValue));
+            const suggestionHTML = suggestions.map(suggestion => `<div>${suggestion}</div>`).join('');
+            suggestionsDiv.innerHTML = suggestionHTML;
+            suggestionsDiv.style.display = suggestions.length ? 'block' : 'none';
+        });
+
+        // Function to handle form submission for searching
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            const username = document.getElementById('username').value;
+            const userInfo = userData[username];
+            if (userInfo) {
+                displayReportedUserProfile(username); // Display profile for the reported user
+                displayUserInfo(username);
+                openTab('viewReportsTab', document.querySelector('.tabs .tab:nth-child(1)')); // Activate the View Reports tab
+            } else {
+                alert('User not found!');
+            }
+        });
+
+        // Function to handle form submission for filing report
+        document.getElementById('fileReportForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            if (!loggedInUser) {
+                openTab('loginTab');
+                return;
+            }
+            const username = document.getElementById('fileReportUsername').value;
+            const platform = document.getElementById('platform').value;
+            const game = document.getElementById('game').value;
+            const cheatType = document.getElementById('cheatType').value;
+            const profileLink = document.getElementById('profileLink').value;
+            const uploadPicture = document.getElementById('uploadPicture').value; // File upload, needs further handling
+            const userInfo = document.getElementById('userInfo').value;
+            const date = new Date().toLocaleString(); // Get current date and time
+            if (userData[username]) {
+                userData[username].push({ platform, game, cheatType, profileLink, uploadPicture, information: userInfo, publisher: loggedInUser.name, date });
+            } else {
+                userData[username] = [{ platform, game, cheatType, profileLink, uploadPicture, information: userInfo, publisher: loggedInUser.name, date }];
+            }
+            alert('Report filed successfully!');
+        });
+
+        // Function to handle form submission for login
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            const loginEmail = document.getElementById('loginEmail').value;
+            const loginPassword = document.getElementById('loginPassword').value;
+            const user = registeredUsers.find(u => u.email === loginEmail && u.password === loginPassword);
+            if (user) {
+                loggedInUser = user;
+                openTab('fileReportTab');
+            } else {
+                alert('Invalid email or password');
+            }
+        });
+
+        // Function to switch between tabs
+        function openTab(tabName, tab) {
+            const tabs = document.querySelectorAll('.tabContent');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+
+            const activeTabs = document.querySelectorAll('.tab.active');
+            activeTabs.forEach(activeTab => activeTab.classList.remove('active'));
+            if (tab) {
+                tab.classList.add('active');
+            }
+        }
+
+        // Function to display usernames sorted by information
+        document.getElementById('theListTab').addEventListener('click', function() {
+            const sortedUsernamesList = document.getElementById('sortedUsernamesList');
+            sortedUsernamesList.innerHTML = '';
+            const sortedUsernames = Object.keys(userData).sort((a, b) => userData[b].length - userData[a].length);
+            sortedUsernames.forEach(username => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${username}: ${userData[username].length} reports filed`;
+                sortedUsernamesList.appendChild(listItem);
+            });
+            openTab('theListTab');
+        });
+
+        // Function to handle clicking on a suggestion
+        suggestionsDiv.addEventListener('click', function(event) {
+            if (event.target.tagName === 'DIV') {
+                usernameInput.value = event.target.textContent;
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+
+        // Function to handle form submission for registration
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            const registerName = document.getElementById('registerName').value;
+            const registerEmail = document.getElementById('registerEmail').value;
+            const registerPassword = document.getElementById('registerPassword').value;
+            
+            // Check if the email is already registered
+            const emailExists = registeredUsers.some(user => user.email === registerEmail);
+            if (emailExists) {
+                document.getElementById('registrationNotification').style.display = 'block'; // Display notification
+                return;
+            }
+
+            // Check if the username is already taken
+            const usernameExists = registeredUsers.some(user => user.name === registerName);
+            if (usernameExists) {
+                document.getElementById('usernameExistNotification').style.display = 'block'; // Display notification
+                return;
+            }
+
+            // If email and username are unique, proceed with registration
+            registeredUsers.push({ name: registerName, email: registerEmail, password: registerPassword });
+            alert('Registration successful! You can now login.');
+            openTab('loginTab');
+        });
+
+        // Function to display the profile of the reported user
+        function displayReportedUserProfile(username) {
+            const profileContainer = document.getElementById('reportedUserProfile');
+            profileContainer.innerHTML = ''; // Clear previous profile
+
+            // Display user's profile information
+            const userProfileContainer = document.createElement('div');
+            userProfileContainer.classList.add('user-profile');
+
+            // Display user's profile picture
+            const userProfilePicture = document.createElement('img');
+            userProfilePicture.src = userData[username][0].uploadPicture || 'placeholder.jpg'; // Provide a default image if none is uploaded
+            userProfilePicture.alt = `${username}'s Profile Picture`;
+            userProfileContainer.appendChild(userProfilePicture);
+
+            // Display user's name and View More option
+            const profileName = document.createElement('div');
+            profileName.classList.add('profile-name');
+            profileName.textContent = username;
+            profileName.addEventListener('click', function() {
+                displayUserInfo(username);
+            });
+            userProfileContainer.appendChild(profileName);
+
+            profileContainer.appendChild(userProfileContainer);
+        }
+
+        // Function to display the information of the reported user
+        function displayUserInfo(username) {
+            const userInfoDisplay = document.getElementById('viewReportsInfoDisplay');
+            userInfoDisplay.innerHTML = ''; // Clear previous information
+
+            const userInfo = userData[username];
+            if (userInfo) {
+                userInfo.forEach(info => {
+                    const reportInfoContainer = document.createElement('div');
+                    reportInfoContainer.classList.add('report-info');
+
+                    // Display platform
+                    const platformElement = document.createElement('div');
+                    platformElement.textContent = `Platform: ${info.platform}`;
+                    reportInfoContainer.appendChild(platformElement);
+
+                    // Display game
+                    const gameElement = document.createElement('div');
+                    gameElement.textContent = `Game: ${info.game}`;
+                    reportInfoContainer.appendChild(gameElement);
+
+                    // Display type of cheat
+                    const cheatTypeElement = document.createElement('div');
+                    cheatTypeElement.textContent = `Type of Cheat: ${info.cheatType}`;
+                    reportInfoContainer.appendChild(cheatTypeElement);
+
+                    // Display profile link
+                    const profileLinkElement = document.createElement('div');
+                    profileLinkElement.textContent = `Profile Link: ${info.profileLink}`;
+                    reportInfoContainer.appendChild(profileLinkElement);
+
+                    // Display user's uploaded picture
+                    if (info.uploadPicture) {
+                        const uploadedPictureElement = document.createElement('img');
+                        uploadedPictureElement.src = info.uploadPicture;
+                        uploadedPictureElement.alt = 'Uploaded Picture';
+                        uploadedPictureElement.style.width = '100px'; // Adjust size as needed
+                        reportInfoContainer.appendChild(uploadedPictureElement);
+                    }
+
+                    // Display user information
+                    const userInfoElement = document.createElement('div');
+                    userInfoElement.textContent = `Report: ${info.information} (Reported by: ${info.publisher} - ${info.date})`;
+                    reportInfoContainer.appendChild(userInfoElement);
+
+                    userInfoDisplay.appendChild(reportInfoContainer);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
